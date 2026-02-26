@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پیکسل فورت | سرور ماینکرفت</title>
+    <!-- فونت‌های مورد نیاز -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- فونت awesome برای آیکون‌ها -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" href="logo.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Vazirmatn', sans-serif;
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a1f35 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* پس‌زمینه گرادینت با رنگ‌های آبی آسمانی به بنفش */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(79, 192, 255, 0.15) 0%, rgba(106, 90, 255, 0.15) 100%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(10, 15, 30, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(79, 192, 255, 0.2);
+            border-radius: 40px;
+            padding: 40px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(79, 192, 255, 0.1) inset;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* هدر با زبان و آیکون */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .language-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: rgba(79, 192, 255, 0.1);
+            border: 1px solid rgba(79, 192, 255, 0.3);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .lang-btn i {
+            color: #4fc0ff;
+        }
+
+        .lang-btn:hover {
+            background: rgba(79, 192, 255, 0.2);
+            border-color: #4fc0ff;
+            transform: translateY(-2px);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, #4fc0ff, #6a5aff);
+            border-color: transparent;
+        }
+
+        /* محتوای اصلی */
+        .server-profile {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .server-icon {
+            width: 120px;
+            height: 120px;
+            border-radius: 30px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #4fc0ff, #6a5aff);
+            padding: 3px;
+            box-shadow: 0 20px 40px rgba(79, 192, 255, 0.3);
+        }
+
+        .server-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 28px;
+            background: #0a0f1e;
+        }
+
+        .server-title {
+            font-size: 36px;
+            font-weight: 900;
+            margin-bottom: 15px;
+            background: linear-gradient(135deg, #4fc0ff, #b89eff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(79, 192, 255, 0.3);
+        }
+
+        .server-description {
+            font-size: 20px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+            background: rgba(79, 192, 255, 0.05);
+            padding: 15px 30px;
+            border-radius: 60px;
+            border: 1px solid rgba(79, 192, 255, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        /* دکمه‌ها */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .btn {
+            background: rgba(79, 192, 255, 0.1);
+            border: 1px solid rgba(79, 192, 255, 0.3);
+            border-radius: 60px;
+            padding: 18px 25px;
+            font-size: 18px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn i {
+            font-size: 24px;
+            color: #4fc0ff;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: rgba(79, 192, 255, 0.2);
+            border-color: #4fc0ff;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px rgba(79, 192, 255, 0.2);
+        }
+
+        .btn:hover i {
+            color: #b89eff;
+            transform: scale(1.1);
+        }
+
+        /* دکمه مخصوص ای پی */
+        .ip-btn {
+            background: linear-gradient(135deg, rgba(79, 192, 255, 0.2), rgba(106, 90, 255, 0.2));
+            border: 2px solid rgba(79, 192, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ip-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .ip-btn:hover::before {
+            left: 100%;
+        }
+
+        /* مدال */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1f35, #0a0f1e);
+            border: 2px solid rgba(79, 192, 255, 0.3);
+            border-radius: 40px;
+            padding: 40px;
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(79, 192, 255, 0.2) inset;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.show .modal-content {
+            transform: scale(1);
+        }
+
+        .modal h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #4fc0ff, #b89eff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .ip-display {
+            background: rgba(79, 192, 255, 0.1);
+            border: 2px solid rgba(79, 192, 255, 0.3);
+            border-radius: 60px;
+            padding: 20px;
+            margin: 25px 0;
+            font-size: 24px;
+            font-weight: 700;
+            color: #fff;
+            letter-spacing: 2px;
+            direction: ltr;
+            font-family: monospace;
+            box-shadow: 0 0 20px rgba(79, 192, 255, 0.2);
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #4fc0ff, #6a5aff);
+            border: none;
+            border-radius: 60px;
+            padding: 18px 35px;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .copy-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(79, 192, 255, 0.4);
+        }
+
+        .copy-btn i {
+            font-size: 24px;
+        }
+
+        .close-modal {
+            margin-top: 20px;
+            background: transparent;
+            border: 2px solid rgba(79, 192, 255, 0.3);
+            border-radius: 40px;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .close-modal:hover {
+            border-color: #4fc0ff;
+            color: #fff;
+        }
+
+        /* نوتیفیکیشن کپی */
+        .copy-notification {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #4fc0ff, #6a5aff);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 60px;
+            font-size: 18px;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(79, 192, 255, 0.5);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copy-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ریسپانسیو */
+        @media (max-width: 768px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .server-title {
+                font-size: 28px;
+            }
+            
+            .server-description {
+                font-size: 16px;
+                padding: 12px 20px;
+            }
+            
+            .btn {
+                padding: 15px 20px;
+                font-size: 16px;
+            }
+            
+            .modal-content {
+                padding: 30px 20px;
+            }
+            
+            .ip-display {
+                font-size: 18px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- مدال نمایش ای پی -->
+    <div class="modal" id="ipModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-server" style="margin-left: 10px;"></i>آیپی سرور</h2>
+            <div class="ip-display" id="serverIP"> Coming Soon... </div>
+            <button class="copy-btn" onclick="copyIP()">
+                <i class="fas fa-copy"></i>
+                کپی آیپی
+            </button>
+            <div>
+                <button class="close-modal" onclick="closeModal()">
+                    <i class="fas fa-times" style="margin-left: 8px;"></i>
+                    بستن
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- نوتیفیکیشن کپی -->
+    <div class="copy-notification" id="copyNotification">
+        <i class="fas fa-check-circle"></i>
+        آیپی با موفقیت کپی شد!
+    </div>
+
+    <div class="container">
+        <!-- هدر با دکمه‌های زبان -->
+        <div class="header">
+            <div class="language-buttons">
+                <button class="lang-btn active" onclick="changeLanguage('fa')">
+                    <i class="fas fa-flag"></i>
+                    فارسی
+                </button>
+                <button class="lang-btn" onclick="changeLanguage('en')">
+                    <i class="fas fa-flag"></i>
+                    English
+                </button>
+            </div>
+            <div class="language-buttons">
+                <!-- فضای خالی برای تعادل -->
+            </div>
+        </div>
+
+        <!-- پروفایل سرور -->
+        <div class="server-profile">
+            <div class="server-icon">
+                <!-- اینجا لینک آیکون خودت رو بزار -->
+                <img src="logo.png" 
+                     alt="پیکسل فورت">
+            </div>
+            <h1 class="server-title">پیکسل فورت</h1>
+            <p class="server-description" id="serverDescription">
+                یکی از بهترین سرور های اس ام پی و روبیکای ماینکرفت
+            </p>
+        </div>
+
+        <!-- دکمه‌ها -->
+        <div class="buttons-grid">
+            <button class="btn ip-btn" onclick="openModal()">
+                <i class="fas fa-network-wired"></i>
+                <span id="btnIp">آیپی سرور</span>
+            </button>
+
+            <a href="https://rubika.ir/pixelfort" target="_blank" class="btn">
+                <i class="fas fa-paper-plane"></i>
+                <span id="btnRubika">کانال روبیکا</span>
+            </a>
+
+            <a href="https://rubino.ir/pixelfortmc" target="_blank" class="btn">
+                <i class="fas fa-telegram"></i>
+                <span id="btnRubino">کانال روبینو</span>
+            </a>
+
+            <a href="https://rubika.ir/pixelfort" target="_blank" class="btn">
+                <i class="fab fa-discord"></i>
+                <span id="btnDiscord">چنل دیسکورد</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // آیپی سرور
+        const SERVER_IP = 'Coming Soon...';
+        
+        // عناصر متنی برای چند زبانه
+        const texts = {
+            fa: {
+                description: 'یکی از بهترین سرور های اس ام پی و روبیکای ماینکرفت',
+                btnIp: 'آیپی سرور',
+                btnRubika: 'کانال روبیکا',
+                btnRubino: 'کانال روبینو',
+                btnDiscord: 'چنل دیسکورد',
+                modalTitle: 'آیپی سرور',
+                copyBtn: 'کپی آیپی',
+                closeBtn: 'بستن',
+                copySuccess: 'آیپی با موفقیت کپی شد!'
+            },
+            en: {
+                description: 'One of the best SMP and Rubika Minecraft servers',
+                btnIp: 'Server IP',
+                btnRubika: 'Rubika Channel',
+                btnRubino: 'Rubino Channel',
+                btnDiscord: 'Discord Server',
+                modalTitle: 'Server IP',
+                copyBtn: 'Copy IP',
+                closeBtn: 'Close',
+                copySuccess: 'IP copied successfully!'
+            }
+        };
+
+        let currentLang = 'fa';
+
+        // تابع تغییر زبان
+        function changeLanguage(lang) {
+            currentLang = lang;
+            
+            // آپدیت دکمه‌های زبان
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.closest('.lang-btn').classList.add('active');
+            
+            // آپدیت متن‌ها
+            document.getElementById('serverDescription').textContent = texts[lang].description;
+            document.getElementById('btnIp').textContent = texts[lang].btnIp;
+            document.getElementById('btnRubika').textContent = texts[lang].btnRubika;
+            document.getElementById('btnRubino').textContent = texts[lang].btnRubino;
+            document.getElementById('btnDiscord').textContent = texts[lang].btnDiscord;
+            
+            // آپدیت مدال (اگه باز باشه)
+            const modalTitle = document.querySelector('#ipModal h2');
+            if (modalTitle) {
+                modalTitle.innerHTML = `<i class="fas fa-server" style="margin-left: 10px;"></i>${texts[lang].modalTitle}`;
+            }
+            
+            const copyBtn = document.querySelector('.copy-btn');
+            if (copyBtn) {
+                copyBtn.innerHTML = `<i class="fas fa-copy"></i>${texts[lang].copyBtn}`;
+            }
+            
+            const closeBtn = document.querySelector('.close-modal');
+            if (closeBtn) {
+                closeBtn.innerHTML = `<i class="fas fa-times" style="margin-left: 8px;"></i>${texts[lang].closeBtn}`;
+            }
+        }
+
+        // توابع مدال
+        function openModal() {
+            document.getElementById('ipModal').classList.add('show');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('ipModal').classList.remove('show');
+            document.body.style.overflow = 'auto';
+        }
+
+        // تابع کپی آیپی
+        function copyIP() {
+            navigator.clipboard.writeText(SERVER_IP).then(() => {
+                const notification = document.getElementById('copyNotification');
+                notification.classList.add('show');
+                
+                // تغییر متن نوتیفیکیشن بر اساس زبان
+                const notificationText = notification.querySelector('span');
+                if (currentLang === 'fa') {
+                    notification.innerHTML = '<i class="fas fa-check-circle"></i> آیپی با موفقیت کپی شد!';
+                } else {
+                    notification.innerHTML = '<i class="fas fa-check-circle"></i> IP copied successfully!';
+                }
+                
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        // بستن مدال با کلیک بیرون
+        window.onclick = function(event) {
+            const modal = document.getElementById('ipModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+
+        // بستن مدال با دکمه Escape
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // تنظیم favicon (آیکون تب مرورگر)
+        const link = document.createElement('link');
+        link.rel = 'icon';
+        link.href = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Crect width=\'100\' height=\'100\' rx=\'25\' fill=\'%234fc0ff\'/%3E%3Cpath d=\'M30 30 L70 30 L70 70 L30 70 Z\' fill=\'%236a5aff\' stroke=\'white\' stroke-width=\'5\'/%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'15\' fill=\'%23ffd700\'/%3E%3C/svg%3E';
+        document.head.appendChild(link);
+    </script>
+</body>
+</html>
