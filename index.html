@@ -8,11 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-    <link rel="icon" href="logo.png" type="image/png">
     <!-- فونت awesome برای آیکون‌ها -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- <link rel="icon" href="logo.png"> -->
-    
     <style>
         * {
             margin: 0;
@@ -45,7 +42,7 @@
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             width: 100%;
             background: rgba(10, 15, 30, 0.7);
             backdrop-filter: blur(10px);
@@ -102,17 +99,56 @@
             border-color: transparent;
         }
 
+        /* بخش تعداد پلیرها */
+        .player-stats {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .player-count-box {
+            background: rgba(79, 192, 255, 0.1);
+            border: 2px solid rgba(79, 192, 255, 0.3);
+            border-radius: 60px;
+            padding: 12px 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .player-count-box i {
+            font-size: 24px;
+            color: #4fc0ff;
+        }
+
+        .player-count-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .player-count-number {
+            font-size: 24px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #4fc0ff, #b89eff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
         /* محتوای اصلی */
         .server-profile {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .server-icon {
             width: 120px;
             height: 120px;
             border-radius: 30px;
-            margin: 0 auto 25px;
+            margin: 0 auto 20px;
             background: linear-gradient(135deg, #4fc0ff, #6a5aff);
             padding: 3px;
             box-shadow: 0 20px 40px rgba(79, 192, 255, 0.3);
@@ -129,7 +165,7 @@
         .server-title {
             font-size: 36px;
             font-weight: 900;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             background: linear-gradient(135deg, #4fc0ff, #b89eff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -151,12 +187,48 @@
             backdrop-filter: blur(5px);
         }
 
+        /* متن زیرمجموعه */
+        .subsidiary-text {
+            text-align: center;
+            margin: 20px 0 25px;
+            padding: 12px 25px;
+            background: rgba(106, 90, 255, 0.1);
+            border: 1px solid rgba(106, 90, 255, 0.3);
+            border-radius: 60px;
+            display: inline-block;
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            backdrop-filter: blur(5px);
+        }
+
+        .subsidiary-text p {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .subsidiary-text i {
+            color: #b89eff;
+            font-size: 20px;
+        }
+
+        .subsidiary-text span {
+            background: linear-gradient(135deg, #b89eff, #6a5aff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
         /* دکمه‌ها */
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            margin-top: 40px;
+            margin-top: 30px;
         }
 
         .btn {
@@ -175,6 +247,7 @@
             gap: 12px;
             backdrop-filter: blur(5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            text-decoration: none;
         }
 
         .btn i {
@@ -378,6 +451,14 @@
                 font-size: 18px;
                 padding: 15px;
             }
+
+            .player-count-box {
+                padding: 8px 20px;
+            }
+
+            .subsidiary-text p {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -386,7 +467,7 @@
     <div class="modal" id="ipModal">
         <div class="modal-content">
             <h2><i class="fas fa-server" style="margin-left: 10px;"></i>آیپی سرور</h2>
-            <div class="ip-display" id="serverIP"> pixelfort.tgmc.ir </div>
+            <div class="ip-display" id="serverIP">pixelfort.tgmc.ir</div>
             <button class="copy-btn" onclick="copyIP()">
                 <i class="fas fa-copy"></i>
                 کپی آیپی
@@ -424,6 +505,15 @@
             </div>
         </div>
 
+        <!-- بخش تعداد پلیرها -->
+        <div class="player-stats">
+            <div class="player-count-box">
+                <i class="fas fa-users"></i>
+                <span class="player-count-text" id="playerCountText">تعداد آنلاین:</span>
+                <span class="player-count-number" id="playerCount">...</span>
+            </div>
+        </div>
+
         <!-- پروفایل سرور -->
         <div class="server-profile">
             <div class="server-icon">
@@ -435,7 +525,17 @@
             <p class="server-description" id="serverDescription">
                 یکی از بهترین سرور های اس ام پی و روبیکای ماینکرفت
             </p>
-            <p class="server-description" id="serverDescription">We are a subsidiary of MoonXCraft</p>
+        </div>
+
+        <!-- متن زیرمجموعه مونیکس کرفت -->
+        <div class="subsidiary-text">
+            <p>
+                <i class="fas fa-star"></i>
+                ما زیر مجموعه سرور 
+                <span>مونیکس کرفت</span>
+                هستیم
+                <i class="fas fa-star"></i>
+            </p>
         </div>
 
         <!-- دکمه‌ها -->
@@ -445,17 +545,17 @@
                 <span id="btnIp">آیپی سرور</span>
             </button>
 
-            <a href="https://rubika.ir/pixelfort" target="_blank" class="btn">
+            <a href="https://rubika.ir/PixelFort" target="_blank" class="btn">
                 <i class="fas fa-paper-plane"></i>
                 <span id="btnRubika">کانال روبیکا</span>
             </a>
 
-            <a href="https://rubika.ir/pixelfortmc" target="_blank" class="btn">
+            <a href="https://rubika.ir/PixelFortmc" target="_blank" class="btn">
                 <i class="fas fa-telegram"></i>
                 <span id="btnRubino">کانال روبینو</span>
             </a>
 
-            <a href="https://rubika.ir/pixelfort" target="_blank" class="btn">
+            <a href="#" target="_blank" class="btn">
                 <i class="fab fa-discord"></i>
                 <span id="btnDiscord">چنل دیسکورد</span>
             </a>
@@ -470,7 +570,6 @@
         const texts = {
             fa: {
                 description: 'یکی از بهترین سرور های اس ام پی و روبیکای ماینکرفت',
-                description: ' ما زیر مجموعه سرور مونیکس کرفت هستیم ',
                 btnIp: 'آیپی سرور',
                 btnRubika: 'کانال روبیکا',
                 btnRubino: 'کانال روبینو',
@@ -478,11 +577,12 @@
                 modalTitle: 'آیپی سرور',
                 copyBtn: 'کپی آیپی',
                 closeBtn: 'بستن',
-                copySuccess: 'آیپی با موفقیت کپی شد!'
+                copySuccess: 'آیپی با موفقیت کپی شد!',
+                playerCount: 'تعداد آنلاین:',
+                subsidiary: 'ما زیر مجموعه سرور مونیکس کرفت هستیم'
             },
             en: {
                 description: 'One of the best SMP and Rubika Minecraft servers',
-                description: 'We are a subsidiary of MoonXCraft.',
                 btnIp: 'Server IP',
                 btnRubika: 'Rubika Channel',
                 btnRubino: 'Rubino Channel',
@@ -490,7 +590,9 @@
                 modalTitle: 'Server IP',
                 copyBtn: 'Copy IP',
                 closeBtn: 'Close',
-                copySuccess: 'IP copied successfully!'
+                copySuccess: 'IP copied successfully!',
+                playerCount: 'Players Online:',
+                subsidiary: 'We are a subsidiary of Monix Craft'
             }
         };
 
@@ -512,6 +614,17 @@
             document.getElementById('btnRubika').textContent = texts[lang].btnRubika;
             document.getElementById('btnRubino').textContent = texts[lang].btnRubino;
             document.getElementById('btnDiscord').textContent = texts[lang].btnDiscord;
+            document.getElementById('playerCountText').textContent = texts[lang].playerCount;
+            
+            // آپدیت متن زیرمجموعه
+            const subsidiaryElement = document.querySelector('.subsidiary-text p');
+            if (subsidiaryElement) {
+                if (lang === 'fa') {
+                    subsidiaryElement.innerHTML = '<i class="fas fa-star"></i> ما زیر مجموعه سرور <span>مونیکس کرفت</span> هستیم <i class="fas fa-star"></i>';
+                } else {
+                    subsidiaryElement.innerHTML = '<i class="fas fa-star"></i> We are a subsidiary of <span>Monix Craft</span> <i class="fas fa-star"></i>';
+                }
+            }
             
             // آپدیت مدال (اگه باز باشه)
             const modalTitle = document.querySelector('#ipModal h2');
@@ -530,6 +643,52 @@
             }
         }
 
+        // تابع گرفتن تعداد پلیرها
+        async function getPlayerCount() {
+            try {
+                // استفاده از API رایگان mcsrvstat
+                const response = await fetch(`https://api.mcsrvstat.us/2/${SERVER_IP}`);
+                const data = await response.json();
+                
+                const playerCountElement = document.getElementById('playerCount');
+                
+                if (data.online) {
+                    const online = data.players.online;
+                    const max = data.players.max;
+                    
+                    playerCountElement.innerHTML = `${online}/${max}`;
+                    
+                    // تغییر رنگ بر اساس تعداد پلیرها
+                    if (online > 0) {
+                        playerCountElement.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+                        playerCountElement.style.webkitBackgroundClip = 'text';
+                        playerCountElement.style.webkitTextFillColor = 'transparent';
+                    } else {
+                        playerCountElement.style.background = 'linear-gradient(135deg, #f87171, #ef4444)';
+                        playerCountElement.style.webkitBackgroundClip = 'text';
+                        playerCountElement.style.webkitTextFillColor = 'transparent';
+                    }
+                } else {
+                    if (currentLang === 'fa') {
+                        playerCountElement.textContent = 'آفلاین';
+                    } else {
+                        playerCountElement.textContent = 'Offline';
+                    }
+                    playerCountElement.style.background = 'linear-gradient(135deg, #f87171, #ef4444)';
+                    playerCountElement.style.webkitBackgroundClip = 'text';
+                    playerCountElement.style.webkitTextFillColor = 'transparent';
+                }
+            } catch (error) {
+                console.error('خطا در دریافت تعداد پلیرها:', error);
+                const playerCountElement = document.getElementById('playerCount');
+                if (currentLang === 'fa') {
+                    playerCountElement.textContent = 'خطا';
+                } else {
+                    playerCountElement.textContent = 'Error';
+                }
+            }
+        }
+
         // توابع مدال
         function openModal() {
             document.getElementById('ipModal').classList.add('show');
@@ -545,15 +704,15 @@
         function copyIP() {
             navigator.clipboard.writeText(SERVER_IP).then(() => {
                 const notification = document.getElementById('copyNotification');
-                notification.classList.add('show');
                 
                 // تغییر متن نوتیفیکیشن بر اساس زبان
-                const notificationText = notification.querySelector('span');
                 if (currentLang === 'fa') {
                     notification.innerHTML = '<i class="fas fa-check-circle"></i> آیپی با موفقیت کپی شد!';
                 } else {
                     notification.innerHTML = '<i class="fas fa-check-circle"></i> IP copied successfully!';
                 }
+                
+                notification.classList.add('show');
                 
                 setTimeout(() => {
                     notification.classList.remove('show');
@@ -575,6 +734,10 @@
                 closeModal();
             }
         });
+
+        // گرفتن تعداد پلیرها هر 30 ثانیه
+        getPlayerCount();
+        setInterval(getPlayerCount, 30000);
 
         // تنظیم favicon (آیکون تب مرورگر)
         const link = document.createElement('link');
